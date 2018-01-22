@@ -49,7 +49,7 @@ include_directories( ${Boost_INCLUDE_DIRS} )
 find_package(Threads REQUIRED)
 
 # Wt (I would advise to compile a minimal Wt to lower dependencies)
-include(FindWt REQUIRED)
+include(/usr/lib/Wt/cmake/FindWt.cmake REQUIRED)
 include_directories(${Wt_INCLUDE_DIR})
 
 # Select the connector (FCGI by default)
