@@ -60,7 +60,7 @@ void View::addComputer(const Wt::WString &computerName, std::shared_ptr<Computer
 	_computers[computerName] = view;
 
 	view->setStyleClass("computer");
-	view->setMinimumSize(500, 150);
+	view->setMinimumSize(400, 150);
 	view->powerLedStatusChanged(rpm->powerLedState(computerName));
 
 	_horizontalLayout->addWidget(view.get());
