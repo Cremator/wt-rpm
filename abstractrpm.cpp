@@ -58,9 +58,6 @@ bool AbstractRPM::parseComputer(Wt::Json::Object &computer)
 	Wt::Json::Object powerSwitch = readJSONValue<Wt::Json::Object>(computer, "power_switch_gpio");
 	c.powerSwitch = parseGpio(powerSwitch);
 
-	Wt::Json::Object atxSwitch = readJSONValue<Wt::Json::Object>(computer, "atx_switch_gpio");
-	c.atxSwitch = parseGpio(atxSwitch);
-
 	Wt::Json::Array read_acl = readJSONValue<Wt::Json::Array>(computer, "read_acl");
 	for (size_t i = 0; i < read_acl.size(); i++)
 		c.read_ACL.push_back(read_acl[i].toString());
@@ -309,9 +306,6 @@ void AbstractRPM::addView(View *view)
 		std::shared_ptr<ComputerView> computer(new ComputerView(view, computerName, writeAccess));
 
 		/* view --> backend */
-		computer->sig_atxForceOff.connect(boost::bind(&AbstractRPM::atx_force_off, this, computerName));
-		computer->sig_atxForceOn.connect(boost::bind(&AbstractRPM::atx_force_on, this, computerName));
-		computer->sig_atxReset.connect(boost::bind(&AbstractRPM::atx_reset, this, computerName));
 		computer->sig_pwSwitchPress.connect(boost::bind(&AbstractRPM::pw_switch_press, this, computerName));
 		computer->sig_pwSwitchForceOff.connect(boost::bind(&AbstractRPM::pw_switch_force_off, this, computerName));
 
@@ -338,56 +332,6 @@ bool AbstractRPM::deleteView(std::string sessionId)
 	viewsLock.unlock();
 
 	return ret;
-}
-
-void AbstractRPM::atx_force_off(const Wt::WString &computerName)
-{
-	const Computer *computer = findComputer(computerName);
-	if (!computer) {
-		consoleAddData(computerName, "Unknown computer '" + computerName + "'");
-		return;
-	}
-
-	if (!currentUserIsInAccessList(computerName, WRITE))
-		return;
-
-	writeGPIO(computer->atxSwitch, 1);
-
-	consoleAddData(computerName, "ATX force off");
-}
-
-void AbstractRPM::atx_force_on(const Wt::WString &computerName)
-{
-	const Computer *computer = findComputer(computerName);
-	if (!computer) {
-		consoleAddData(computerName, "Unknown computer '" + computerName + "'");
-		return;
-	}
-
-	if (!currentUserIsInAccessList(computerName, WRITE))
-		return;
-
-	writeGPIO(computer->atxSwitch, 0);
-
-	consoleAddData(computerName, "ATX force on");
-}
-
-void AbstractRPM::atx_reset(const Wt::WString &computerName)
-{
-	const Computer *computer = findComputer(computerName);
-	if (!computer) {
-		consoleAddData(computerName, "Unknown computer '" + computerName + "'");
-		return;
-	}
-
-	if (!currentUserIsInAccessList(computerName, WRITE))
-		return;
-
-	writeGPIO(computer->atxSwitch, 1);
-	sleep(3);
-	writeGPIO(computer->atxSwitch, 0);
-
-	consoleAddData(computerName, "ATX reset");
 }
 
 void AbstractRPM::pw_switch_press(const Wt::WString &computerName)
