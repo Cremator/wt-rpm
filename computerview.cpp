@@ -13,21 +13,6 @@
 
 #include "util.h"
 
-void ComputerView::btn_atx_force_off_clicked()
-{
-	sig_atxForceOff();
-}
-
-void ComputerView::btn_atx_force_on_clicked()
-{
-	sig_atxForceOn();
-}
-
-void ComputerView::btn_atx_reset_clicked()
-{
-	sig_atxReset();
-}
-
 void ComputerView::btn_pw_switch_press_clicked()
 {
 	sig_pwSwitchPress();
@@ -71,21 +56,12 @@ bool writeAccess, Wt::WContainerWidget *parent) :
 	layout->addWidget(_title, 0, Wt::AlignCenter);
 
 	/* create the buttons and connect them to their slots */
-	_btn_atx_force_off = new Wt::WPushButton("Force off");
-	_btn_atx_force_on = new Wt::WPushButton("Force on");
-	_btn_atx_reset = new Wt::WPushButton("Reset");
 	_btn_pw_switch_press = new Wt::WPushButton("Press");
 	_btn_pw_switch_force_off = new Wt::WPushButton("Force off");
 
-	_btn_atx_force_off->setEnabled(writeAccess);
-	_btn_atx_force_on->setEnabled(writeAccess);
-	_btn_atx_reset->setEnabled(writeAccess);
 	_btn_pw_switch_press->setEnabled(writeAccess);
 	_btn_pw_switch_force_off->setEnabled(writeAccess);
 
-	_btn_atx_force_off->clicked().connect(this, &ComputerView::btn_atx_force_off_clicked);
-	_btn_atx_force_on->clicked().connect(this, &ComputerView::btn_atx_force_on_clicked);
-	_btn_atx_reset->clicked().connect(this, &ComputerView::btn_atx_reset_clicked);
 	_btn_pw_switch_press->clicked().connect(this, &ComputerView::btn_pw_switch_press_clicked);
 	_btn_pw_switch_force_off->clicked().connect(this, &ComputerView::btn_pw_switch_force_off_clicked);
 
@@ -93,7 +69,6 @@ bool writeAccess, Wt::WContainerWidget *parent) :
 	_ico_led_on_file.reset(getImg("green_light.png"));
 	_ico_led_off_file.reset(getImg("off_light.png"));
 	_ico_ping_file.reset(getImg("ping.png"));
-	_ico_atx_pwr_file.reset(getImg("atx_power.png"));
 	_ico_pwr_switch_file.reset(getImg("power-button.png"));
 
 	/* create the LED */
@@ -110,12 +85,6 @@ bool writeAccess, Wt::WContainerWidget *parent) :
 	grid->addWidget(new Wt::WText("Ping"), 1, 1);
 	_ping_txt = new Wt::WText("N/A");
 	grid->addWidget(_ping_txt, 1, 2, 0, 0, Wt::AlignCenter);
-
-	grid->addWidget(new Wt::WImage(_ico_atx_pwr_file.get()), 2, 0, Wt::AlignCenter);
-	grid->addWidget(new Wt::WText("ATX power"), 2, 1);
-	grid->addWidget(_btn_atx_force_off, 2, 2);
-	grid->addWidget(_btn_atx_force_on, 2, 3);
-	grid->addWidget(_btn_atx_reset, 2, 4);
 
 	grid->addWidget(new Wt::WImage(_ico_pwr_switch_file.get()), 3, 0, Wt::AlignCenter);
 	grid->addWidget(new Wt::WText("Power switch"), 3, 1);
