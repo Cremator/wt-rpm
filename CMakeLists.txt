@@ -62,7 +62,7 @@ endif(USE_CON_HTTP)
 
 # liboping
 option(USE_PING "Build wt-rpm with ping support" ON)
-if(USE_PING AND (EXISTS "/usr/include/oping.h" AND EXISTS "/usr/lib/liboping.so"))
+if(USE_PING AND (EXISTS "/usr/include/oping.h" AND EXISTS "/usr/lib/arm-linux-gnueabihf/liboping.so"))
 	add_definitions(-DUSE_PING=1)
 	set(PING_LIBRARIES "-loping")
 else()
