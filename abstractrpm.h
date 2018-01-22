@@ -29,7 +29,6 @@ protected:
 
 		Gpio powerLed;
 		Gpio powerSwitch;
-		Gpio atxSwitch;
 
 		std::vector<Wt::WString> read_ACL;
 		std::vector<Wt::WString> write_ACL;
@@ -81,9 +80,6 @@ public:
 	bool powerLedState(const Wt::WString &computerName);
 
 	/* input events */
-	void atx_force_off(const Wt::WString &computerName);
-	void atx_force_on(const Wt::WString &computerName);
-	void atx_reset(const Wt::WString &computerName);
 	void pw_switch_press(const Wt::WString &computerName);
 	void pw_switch_force_off(const Wt::WString &computerName);
 
