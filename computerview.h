@@ -12,11 +12,6 @@ private:
 	Wt::WString _computerName;
 	bool _ledStatus;
 	bool _powerStatus;
-	bool _atxStatus;
-
-	Wt::WPushButton *_btn_atx_force_off;
-	Wt::WPushButton *_btn_atx_force_on;
-	Wt::WPushButton *_btn_atx_reset;
 
 	Wt::WPushButton *_btn_pw_switch_press;
 	Wt::WPushButton *_btn_pw_switch_force_off;
@@ -28,12 +23,8 @@ private:
 	std::shared_ptr<Wt::WFileResource> _ico_led_on_file;
 	std::shared_ptr<Wt::WFileResource> _ico_led_off_file;
 	std::shared_ptr<Wt::WFileResource> _ico_ping_file;
-	std::shared_ptr<Wt::WFileResource> _ico_atx_pwr_file;
 	std::shared_ptr<Wt::WFileResource> _ico_pwr_switch_file;
 
-	void btn_atx_force_off_clicked();
-	void btn_atx_force_on_clicked();
-	void btn_atx_reset_clicked();
 	void btn_pw_switch_press_clicked();
 	void btn_pw_switch_force_off_clicked();
 
@@ -53,9 +44,6 @@ public:
 	void setPingDelay(double delay);
 
 	/* signals */
-	boost::signals2::signal<void ()> sig_atxForceOff;
-	boost::signals2::signal<void ()> sig_atxForceOn;
-	boost::signals2::signal<void ()> sig_atxReset;
 	boost::signals2::signal<void ()> sig_pwSwitchPress;
 	boost::signals2::signal<void ()> sig_pwSwitchForceOff;
 };
