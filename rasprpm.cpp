@@ -35,7 +35,6 @@ void RaspRPM::prepareGPIOs()
 		fprintf(stderr, "Configure computer '%s':\n", _computers.at(i).name.toUTF8().c_str());
 		setupGPIO("power LED", INPUT, _computers.at(i).powerLed);
 		setupGPIO("power switch", OUTPUT, _computers.at(i).powerSwitch);
-		setupGPIO("ATX power", OUTPUT, _computers.at(i).atxSwitch);
 		fprintf(stderr, "\n");
 	}
 }
